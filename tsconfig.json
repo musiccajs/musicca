@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "module": "commonjs",
+    "target": "esnext",
+    "rootDir": "src",
+    "baseUrl": "src",
+    "lib": [
+      "DOM",
+      "esnext",
+      "esnext.array",
+      "esnext.asynciterable",
+      "esnext.intl",
+      "esnext.symbol"
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "declaration": true,
+    "removeComments": true,
+    "pretty": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
+  },
+  "exclude": [
+    "tests",
+    "node_modules"
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}
