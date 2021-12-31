@@ -44,9 +44,18 @@ export default abstract class Extractor extends BasePlugin {
   /**
    * Extract input to normalized object
    * @param {string} input Input to extract from
+   *
    * @returns {Awaitable<Song | Song[]>}
    */
   abstract extract(input: string): Awaitable<Song | Song[]>;
+
+  /**
+   * Download data from url extracted from `extract` method to a `Readable` stream
+   * @param {string} url Url to download the resource
+   *
+   * @returns {Awaitable<ReadableStream>}
+   */
+  abstract fetch(url: string): Awaitable<ReadableStream>;
 }
 
 export type ExtractorResolvable = Extractor | string;
