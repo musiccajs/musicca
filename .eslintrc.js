@@ -21,6 +21,7 @@ module.exports = {
     semi: 'off',
     quotes: 'off',
     indent: 'off',
+    'no-shadow': 'off',
     'no-multi-spaces': 'error',
     'consistent-return': 'off',
     'import/extensions': 'off',
@@ -31,6 +32,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/quotes': ['error', 'single'],
     '@typescript-eslint/member-delimiter-style': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off'
