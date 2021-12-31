@@ -1,2 +1,2 @@
-export { default as Client } from './lib/Client';
-export * from './lib/structs';
+export * from './built-in';
+export * from './lib';
