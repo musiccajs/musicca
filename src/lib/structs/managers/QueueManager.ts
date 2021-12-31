@@ -1,33 +1,33 @@
 import { TransformOptions } from 'stream';
-import { PluginType } from '@/typings';
+import { Constructor, PluginType } from '@/typings';
 import Client from '../../Client';
-import { BasePlugin, Queue, Song, QueueConstructor } from '..';
+import { BasePlugin, Queue, Song } from '..';
 
 export type QueueResolvable = Queue | string;
 
 /**
  * Queue manager
  */
-export default class QueueManager extends BasePlugin {
+export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
   public readonly client: Client;
 
-  public readonly queues: Map<string, Queue>;
+  public readonly queues: Map<string, T>;
 
   public readonly queueDefaultOptions?: TransformOptions;
 
-  public readonly QueueStruct: QueueConstructor;
+  public readonly QueueStruct: Constructor<T>;
 
   /**
    * @param {Client} client Musicca client
    * @param {Queue[]=} [queues] Initial queues
    */
-  constructor(client: Client, queues?: Queue[]) {
+  constructor(struct: Constructor<T>, client: Client, queues?: T[]) {
     super(PluginType.QueueManager);
 
     this.client = client;
     this.queues = new Map(queues?.map((queue) => [queue.id, queue]));
 
-    this.QueueStruct = this.client.options.structs.queue;
+    this.QueueStruct = struct;
   }
 
   /**
@@ -58,7 +58,7 @@ export default class QueueManager extends BasePlugin {
    * @param {Queue} extractor The extractor
    * @returns {Queue}
    */
-  public add(extractor: Queue) {
+  public add(extractor: T) {
     this.queues.set(extractor.id, extractor);
     return extractor;
   }

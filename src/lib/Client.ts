@@ -1,16 +1,16 @@
-import { PluginLike, PluginType } from '@/typings';
+import { Constructor, PluginLike, PluginType } from '@/typings';
 import { getDefault } from '@/utils';
+import { MemoryQueue } from '..';
 import { QueueManager, Extractor, ExtractorManager, Queue } from './structs';
-import { QueueConstructor } from './structs/Queue';
 
 export interface Structs {
-  queue: QueueConstructor;
+  queue?: Constructor<Queue>;
   queueManager?: typeof QueueManager;
   extractorManager?: typeof ExtractorManager;
 }
 
 export interface ClientOptions {
-  structs: Structs;
+  structs?: Structs;
   plugins?: PluginLike[];
   queues?: Queue[];
 }
@@ -28,9 +28,13 @@ export default class Client {
   constructor(options: ClientOptions) {
     this.options = options;
 
+    const cExtractorManager = options?.structs?.extractorManager;
     const extractors = getDefault<Extractor[]>(options?.plugins?.filter((pl) => pl.type === PluginType.Extractor) as Extractor[], []);
-    this.extractors = new (getDefault<typeof ExtractorManager>(options?.structs?.extractorManager, ExtractorManager))(this, extractors);
+    this.extractors = new (getDefault<typeof ExtractorManager>(cExtractorManager, ExtractorManager))(this, extractors);
 
-    this.queues = new (getDefault<typeof QueueManager>(options?.structs?.queueManager, QueueManager))(this, options?.queues);
+    const cQueueManager = options?.structs?.queueManager;
+    const queueStruct = options?.structs?.queue ?? MemoryQueue;
+    const queues = options?.queues;
+    this.queues = new (getDefault<typeof QueueManager>(cQueueManager, QueueManager))(queueStruct, this, queues);
   }
 }

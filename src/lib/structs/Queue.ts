@@ -93,7 +93,3 @@ export default abstract class Queue extends BasePlugin {
     this.paused = true;
   }
 }
-
-export declare interface QueueConstructor {
-  new(streamOptions?: TransformOptions, id?: string): Queue;
-}
