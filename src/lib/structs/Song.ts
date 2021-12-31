@@ -29,4 +29,17 @@ export default class Song {
     this.url = url;
     this.data = data;
   }
+
+  public fetch(): Promise<ReadableStream> {
+    return new Promise((resolve, reject) => {
+      Promise.resolve().then(async () => {
+        try {
+          const stream = await this.extractor.fetch(this.url);
+          resolve(stream);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
+  }
 }
