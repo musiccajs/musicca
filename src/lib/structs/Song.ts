@@ -1,4 +1,5 @@
-import { Extractor } from '../extractor';
+import { Readable } from 'stream';
+import { Extractor } from '.';
 
 export interface SongData {
   title: string;
@@ -30,7 +31,7 @@ export default class Song {
     this.data = data;
   }
 
-  public fetch(): Promise<ReadableStream> {
+  public fetch(): Promise<Readable> {
     return new Promise((resolve, reject) => {
       Promise.resolve().then(async () => {
         try {
