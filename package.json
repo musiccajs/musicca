@@ -1,26 +1,27 @@
 {
-  "name": "template",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "musicca",
+  "version": "0.0.1",
+  "description": "A music streaming library for Node.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "lint:report": "eslint --output-file eslint_report.json --format json .",
-    "prepare": "npx husky install && node .husky/link.js"
+    "prepare": "npx husky install && node .husky/link.js",
+    "build": "tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Edqe14/project-template.git"
+    "url": "git+https://github.com/musiccajs/musicca.git"
   },
   "author": "Edqe_",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Edqe14/project-template/issues"
+    "url": "https://github.com/musiccajs/musicca/issues"
   },
-  "homepage": "https://github.com/Edqe14/project-template#readme",
+  "homepage": "https://github.com/musiccajs/musicca#readme",
   "files": [
     "dist",
     "LICENSE",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@commitlint/cli": "16.0.1",
     "@commitlint/config-conventional": "16.0.0",
+    "@modii/tscpaths": "0.2.2",
     "@types/jest": "27.4.0",
     "@typescript-eslint/eslint-plugin": "5.8.1",
     "@typescript-eslint/parser": "5.8.1",
