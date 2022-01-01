@@ -38,9 +38,9 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
 
   /**
    * Get all available queues
-   * @returns {Map<string, Queue>}
+   * @returns {Map<string, T>}
    */
-  public all() {
+  public all(): Map<string, T> {
     return this.list;
   }
 
@@ -65,7 +65,7 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @returns {T}
    * @throws {MusiccaError}
    */
-  public add(queue: T) {
+  public add(queue: T): T {
     if (this.list.has(queue.id)) throw new MusiccaError('DUPLICATE_QUEUE', queue);
 
     this.list.set(queue.id, queue);
@@ -75,9 +75,10 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
   /**
    * Remove queue from the manager
    * @param {QueueResolvable<T>} resolvable Queue to remove
-   * @returns {Queue=}
+   *
+   * @returns {Nullable<T>}
    */
-  public remove(resolvable: QueueResolvable<T>) {
+  public remove(resolvable: QueueResolvable<T>): Nullable<T> {
     const queue = this.get(resolvable);
 
     if (queue) this.list.delete(queue.id);
@@ -88,6 +89,7 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
   /**
    * Resolve to queue object
    * @param {QueueResolvable<T>} resolvable Queue to resolve
+   *
    * @returns {Nullable<T>}
    */
   public get(resolvable: QueueResolvable<T>): Nullable<T> {
@@ -100,6 +102,7 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
   /**
    * Resolve to queue's ID
    * @param {QueueResolvable<T>} resolvable Queue to resolve
+   *
    * @returns {string | undefined}
    */
   public getId(resolvable: QueueResolvable<T>): string | undefined {

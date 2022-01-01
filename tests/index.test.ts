@@ -77,7 +77,7 @@ describe('queues', () => {
 
   const title = 'very foo';
 
-  test('should return a random readable of foo', () => queue.play(title, false).then((res) => {
+  test('should return a random readable of foo', () => queue.play(title).then((res) => {
     const stream = res as RandomReadable;
     expect(stream).toBeInstanceOf(RandomReadable);
     expect(stream.name).toBe('foo');

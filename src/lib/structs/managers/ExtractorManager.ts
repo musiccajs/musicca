@@ -42,6 +42,7 @@ export class ExtractorManager extends BasePlugin {
 
   /**
    * Get all available extractors
+   *
    * @returns {Map<string, Extractor>}
    */
   public all() {
@@ -73,6 +74,7 @@ export class ExtractorManager extends BasePlugin {
   /**
    * Remove extractor from the manager
    * @param {ExtractorResolvable} resolvable Extractor to remove
+   *
    * @returns {Nullable<Extractor>}
    */
   public remove(resolvable: ExtractorResolvable) {
@@ -86,6 +88,7 @@ export class ExtractorManager extends BasePlugin {
   /**
    * Resolve to Extractor object
    * @param {ExtractorResolvable} resolvable Extractor to resolve
+   *
    * @returns {Nullable<T>}
    */
   public get<T extends Extractor = Extractor>(resolvable: ExtractorResolvable): Nullable<T> {
@@ -98,6 +101,7 @@ export class ExtractorManager extends BasePlugin {
   /**
    * Resolve to Extractor's ID
    * @param {ExtractorResolvable} resolvable Extractor to resolve
+   *
    * @returns {string | undefined}
    */
   public getId(resolvable: ExtractorResolvable): string | undefined {

@@ -32,9 +32,9 @@ export default abstract class Queue extends BasePlugin {
    * @param {Song | Song[]} song Song(s) to add
    * @param {number} [position] Exact position to insert the song(s). (Default is the last position)
    *
-   * @returns {Awaitable<Song | Song[]>}
+   * @returns {Awaitable<T>}
    */
-  public abstract add<T extends Song | Song[]>(song: T, position?: number): Awaitable<T>;
+  public abstract add<T extends Song | Song[] = Song>(song: T, position?: number): Awaitable<T>;
 
   /**
    * Get a song based on the position
@@ -123,7 +123,7 @@ export default abstract class Queue extends BasePlugin {
    * @returns {Promise<Readable>}
    * @throws {MusiccaError}
    */
-  public async play(resolvable?: SongResolvable | number): Promise<Readable> {
+  public async play(resolvable: SongResolvable | number): Promise<Readable> {
     const resolved = await this.resolveSong(resolvable);
     if (!resolved) throw new MusiccaError('MISSING_ARGUMENT', 'resolvable');
 
@@ -134,28 +134,26 @@ export default abstract class Queue extends BasePlugin {
     return stream;
   }
 
-  private async resolveSong(resolvable?: SongResolvable | number): Promise<Nullable<Song>> {
+  private async resolveSong(resolvable: SongResolvable | number): Promise<Nullable<Song>> {
     if (typeof resolvable === 'number') {
       const res = await this.get(resolvable);
       return res;
     }
 
-    if (!resolvable) {
-      const res = await Song.resolve(this.manager.client, resolvable);
+    const res = await Song.resolve(this.manager.client, resolvable);
 
-      if (!res) {
-        const current = await this.current();
-        return current;
-      }
-
-      if (Array.isArray(res)) {
-        await this.add(res);
-
-        const [first] = res;
-        return first;
-      }
-
-      return res;
+    if (!res) {
+      const current = await this.current();
+      return current;
     }
+
+    if (Array.isArray(res)) {
+      await this.add(res);
+
+      const [first] = res;
+      return first;
+    }
+
+    return res;
   }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { Readable } from 'stream';
 import { randomBytes } from 'crypto';
-import { Extractor, Queue, Song } from '../src';
+import { Extractor, Queue, Song, Utils } from '../src';
 
 // TEMP
 export class MemoryQueue extends Queue {
@@ -11,9 +11,11 @@ export class MemoryQueue extends Queue {
     return this.list;
   }
 
-  public add(song: Song | Song[], position = 0) {
+  public add<T extends Song | Song[] = Song>(song: T, position?: number) {
     const wrap = Array.isArray(song) ? song : [song];
-    this.list.splice(position, 0, ...wrap);
+
+    if (Utils.isNullOrUndefined(position)) this.list.splice(position as number, 0, ...wrap);
+    else this.list.push(...wrap);
 
     return song;
   }
