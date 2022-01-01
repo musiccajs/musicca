@@ -3,7 +3,7 @@ import { Constructor, PluginType } from '@/typings';
 import Client from '../../Client';
 import { BasePlugin, Queue, Song } from '..';
 
-export type QueueResolvable = Queue | string;
+export type QueueResolvable<T extends Queue = Queue> = T | string;
 
 /**
  * Queue manager
@@ -44,7 +44,7 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @param {Song | Song[]} [songs] New queue initial songs
    * @param {string} [id] New queue ID
    *
-   * @returns {Queue}
+   * @returns {T}
    */
   public async create(options?: TransformOptions, songs?: Song | Song[], id?: string) {
     const instance = new this.QueueStruct(options ?? this.queueDefaultOptions, id);
@@ -54,21 +54,21 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
   }
 
   /**
-   * Add an extractor to the manager
-   * @param {Queue} extractor The extractor
-   * @returns {Queue}
+   * Add an queue to the manager
+   * @param {T} queue The queue
+   * @returns {T}
    */
-  public add(extractor: T) {
-    this.queues.set(extractor.id, extractor);
-    return extractor;
+  public add(queue: T) {
+    this.queues.set(queue.id, queue);
+    return queue;
   }
 
   /**
-   * Remove extractor from the manager
-   * @param {QueueResolvable} resolvable Queue to remove
+   * Remove queue from the manager
+   * @param {QueueResolvable<T>} resolvable Queue to remove
    * @returns {Queue=}
    */
-  public remove(resolvable: QueueResolvable) {
+  public remove(resolvable: QueueResolvable<T>) {
     const extractor = this.resolve(resolvable);
 
     if (extractor) this.queues.delete(extractor.id);
@@ -77,21 +77,21 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
   }
 
   /**
-   * Resolve to Queue object
-   * @param {QueueResolvable} resolvable Queue to resolve
+   * Resolve to queue object
+   * @param {QueueResolvable<T>} resolvable Queue to resolve
    * @returns {Queue=}
    */
-  public resolve(resolvable: QueueResolvable) {
+  public resolve(resolvable: QueueResolvable<T>) {
     const id = this.resolveId(resolvable);
     return this.queues.get(id);
   }
 
   /**
-   * Resolve to Queue's ID
-   * @param {QueueResolvable} resolvable Queue to resolve
+   * Resolve to queue's ID
+   * @param {QueueResolvable<T>} resolvable Queue to resolve
    * @returns {string=}
    */
-  resolveId(resolvable: QueueResolvable) {
+  resolveId(resolvable: QueueResolvable<T>) {
     if (typeof resolvable === 'string' && this.queues.has(resolvable)) return resolvable;
     return (resolvable as Queue).id;
   }

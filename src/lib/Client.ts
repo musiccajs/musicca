@@ -1,40 +1,33 @@
 import { Constructor, PluginLike, PluginType } from '@/typings';
 import { getDefault } from '@/utils';
-import { MemoryQueue } from '..';
 import { QueueManager, Extractor, ExtractorManager, Queue } from './structs';
 
-export interface Structs {
-  queue?: Constructor<Queue>;
-  queueManager?: typeof QueueManager;
-  extractorManager?: typeof ExtractorManager;
+export interface Structs<T extends Queue> {
+  queue: Constructor<T>;
 }
 
-export interface ClientOptions {
-  structs?: Structs;
+export interface ClientOptions<T extends Queue = Queue> {
   plugins?: PluginLike[];
-  queues?: Queue[];
+  structs: Structs<T>;
 }
 
 /**
  * Musicca client class
  */
-export default class Client {
-  public readonly options: ClientOptions;
+export default class Client<T extends Queue = Queue> {
+  public readonly options: ClientOptions<T>;
 
   public extractors: ExtractorManager;
 
-  public queues: QueueManager;
+  public queues: QueueManager<T>;
 
-  constructor(options: ClientOptions) {
-    this.options = options;
+  constructor(options: ClientOptions<T>) {
+    this.options = options ?? {};
 
-    const cExtractorManager = options?.structs?.extractorManager;
     const extractors = getDefault<Extractor[]>(options?.plugins?.filter((pl) => pl.type === PluginType.Extractor) as Extractor[], []);
-    this.extractors = new (getDefault<typeof ExtractorManager>(cExtractorManager, ExtractorManager))(this, extractors);
+    this.extractors = new ExtractorManager(this, extractors);
 
-    const cQueueManager = options?.structs?.queueManager;
-    const queueStruct = options?.structs?.queue ?? MemoryQueue;
-    const queues = options?.queues;
-    this.queues = new (getDefault<typeof QueueManager>(cQueueManager, QueueManager))(queueStruct, this, queues);
+    const queueStruct = options?.structs?.queue;
+    this.queues = new QueueManager<T>(queueStruct, this);
   }
 }
