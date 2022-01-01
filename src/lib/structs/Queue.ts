@@ -42,16 +42,18 @@ export default abstract class Queue extends BasePlugin {
     return this.get(this.position);
   }
 
-  public async playFromList(position: number) {
+  public async play(position: number, pipeThroughStream = true) {
     const song = await this.get(position);
     if (!song) return null;
 
     const stream = await song.fetch();
 
-    return this.play(stream, position);
+    if (!pipeThroughStream) return stream;
+
+    return this.playStream(stream, position);
   }
 
-  public play(stream?: Readable, newPosition?: number) {
+  public playStream(stream?: Readable, newPosition?: number) {
     if (!stream) {
       if (this.playingStream && this.paused) {
         this.playing = true;
