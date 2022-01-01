@@ -4,7 +4,7 @@ import Client from '../../Client';
 import { BasePlugin, MusiccaError, Queue, Song } from '..';
 
 export type QueueResolvable<T extends Queue = Queue> = T | string;
-export type SongResolvable = Nullable<Queue | Song | string>;
+export type SongResolvable = Queue | Song | string;
 
 /**
  * Queue manager
