@@ -32,5 +32,5 @@ export function getDefault<T>(input: Nullable<T>, def: T): T {
  * @returns {string}
  */
 export function generateID() {
-  return Math.random().toString(36).slice(2, 9);
+  return Math.random().toString(36).slice(2, 10);
 }
