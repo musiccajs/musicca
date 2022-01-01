@@ -10,7 +10,7 @@ export type ExtractorResolvable = Extractor | string;
 export class ExtractorManager extends BasePlugin {
   public readonly client: Client;
 
-  public readonly extractors: Map<string, Extractor>;
+  public readonly list: Map<string, Extractor>;
 
   /**
    * @param {Client} client Musicca client
@@ -20,7 +20,7 @@ export class ExtractorManager extends BasePlugin {
     super(PluginType.ExtractorManager);
 
     this.client = client;
-    this.extractors = new Map(extractors?.map((extractor) => [extractor.id, extractor]));
+    this.list = new Map(extractors?.map((extractor) => [extractor.id, extractor]));
   }
 
   /**
@@ -45,7 +45,7 @@ export class ExtractorManager extends BasePlugin {
    * @returns {Map<string, Extractor>}
    */
   public all() {
-    return this.extractors;
+    return this.list;
   }
 
   /**
@@ -53,7 +53,7 @@ export class ExtractorManager extends BasePlugin {
    * @returns {Extractor[]}
    */
   public values() {
-    return [...this.extractors.values()].sort((a, b) => b.priority - a.priority);
+    return [...this.list.values()].sort((a, b) => b.priority - a.priority);
   }
 
   /**
@@ -64,21 +64,21 @@ export class ExtractorManager extends BasePlugin {
    * @throws {MusiccaError}
    */
   public add<T extends Extractor = Extractor>(extractor: T) {
-    if (this.extractors.has(extractor.id)) throw new MusiccaError('DUPLICATE_EXTRACTOR', extractor);
+    if (this.list.has(extractor.id)) throw new MusiccaError('DUPLICATE_EXTRACTOR', extractor);
 
-    this.extractors.set(extractor.id, extractor);
+    this.list.set(extractor.id, extractor);
     return extractor;
   }
 
   /**
    * Remove extractor from the manager
    * @param {ExtractorResolvable} resolvable Extractor to remove
-   * @returns {Extractor=}
+   * @returns {Nullable<Extractor>}
    */
   public remove(resolvable: ExtractorResolvable) {
     const extractor = this.get(resolvable);
 
-    if (extractor) this.extractors.delete(extractor.id);
+    if (extractor) this.list.delete(extractor.id);
 
     return extractor;
   }
@@ -86,20 +86,23 @@ export class ExtractorManager extends BasePlugin {
   /**
    * Resolve to Extractor object
    * @param {ExtractorResolvable} resolvable Extractor to resolve
-   * @returns {Extractor=}
+   * @returns {Nullable<T>}
    */
-  public get<T extends Extractor = Extractor>(resolvable: ExtractorResolvable): T | undefined {
+  public get<T extends Extractor = Extractor>(resolvable: ExtractorResolvable): Nullable<T> {
     const id = this.getId(resolvable);
-    return this.extractors.get(id) as T | undefined;
+    if (!id) return null;
+
+    return this.list.get(id) as T | undefined;
   }
 
   /**
    * Resolve to Extractor's ID
    * @param {ExtractorResolvable} resolvable Extractor to resolve
-   * @returns {string=}
+   * @returns {string | undefined}
    */
-  public getId(resolvable: ExtractorResolvable) {
-    if (typeof resolvable === 'string' && this.extractors.has(resolvable)) return resolvable;
-    return (resolvable as Extractor).id;
+  public getId(resolvable: ExtractorResolvable): string | undefined {
+    if (typeof resolvable === 'string' && this.list.has(resolvable)) return resolvable;
+
+    return (resolvable as Extractor)?.id;
   }
 }
