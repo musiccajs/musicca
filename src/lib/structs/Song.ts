@@ -1,6 +1,7 @@
 import { Readable } from 'stream';
-import { PluginType } from '@/constants';
-import { BasePlugin, Extractor } from '.';
+import { Awaitable, Nullable, PluginType } from '@/constants';
+import { BasePlugin, Extractor, Queue, SongResolvable } from '.';
+import { Client } from '..';
 
 export interface SongData {
   title: string;
@@ -9,7 +10,6 @@ export interface SongData {
   thumbnail?: string;
   source?: string;
   quality?: string | number;
-  id?: string;
   [key: string]: unknown;
 }
 
@@ -21,19 +21,18 @@ export default class Song extends BasePlugin {
 
   public readonly url: string;
 
-  public readonly data: Omit<SongData, 'id'>;
+  public readonly data: SongData;
 
   /**
    * @param {string} url Song url
    * @param {SongData} data Song data
    */
-  constructor(extractor: Extractor, url: string, data: SongData) {
-    const { id, ...opts } = data ?? {};
+  constructor(extractor: Extractor, url: string, data: SongData, id?: Nullable<string>) {
     super(PluginType.Song, id);
 
     this.extractor = extractor;
     this.url = url;
-    this.data = opts as SongData;
+    this.data = data;
   }
 
   public fetch(): Promise<Readable> {
@@ -47,5 +46,11 @@ export default class Song extends BasePlugin {
         }
       });
     });
+  }
+
+  public static resolve(client: Client, resolvable: SongResolvable): Awaitable<Nullable<Song | Song[]>> {
+    if (resolvable instanceof Song) return resolvable;
+    if (resolvable instanceof Queue) return resolvable.get(0);
+    if (typeof resolvable === 'string') return client.extractors.extract(resolvable);
   }
 }

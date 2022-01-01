@@ -34,3 +34,14 @@ export function getDefault<T>(input: Nullable<T>, def: T): T {
 export function generateID() {
   return Math.random().toString(36).slice(2, 10);
 }
+
+/**
+ * Check whether input is null or undefined
+ * @param {any} input Input
+ *
+ * @returns {boolean}
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isNullOrUndefined(input: any): boolean {
+  return input === undefined || input === null;
+}
