@@ -92,13 +92,17 @@ export default abstract class Queue extends BasePlugin {
    * @returns {Readable}
    * @throws {MusiccaError}
    */
-  public async play(resolvable: NonNullable<SongResolvable> | number, pipeThroughStream = true) {
+  public async play(resolvable: SongResolvable | number, pipeThroughStream = true) {
     // eslint-disable-next-line no-param-reassign
     if (typeof resolvable === 'number') resolvable = await this.get(resolvable) as Song;
     if (typeof resolvable === 'string') {
       const res = await this.manager.client.extractors.extract(resolvable) as Song | Song[];
-      // eslint-disable-next-line prefer-destructuring, no-param-reassign
-      if (Array.isArray(res)) resolvable = res[0];
+      if (Array.isArray(res)) {
+        const [first] = res;
+        // eslint-disable-next-line prefer-destructuring, no-param-reassign
+        resolvable = first;
+        await this.add(res);
+      }
       // eslint-disable-next-line no-param-reassign
       else resolvable = res;
     }
