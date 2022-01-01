@@ -12,10 +12,9 @@ export interface Constructor<T> {
 }
 
 export enum PluginType {
-  Logger = 0,
-  Extractor = 1,
-  ExtractorManager = 2,
-  Queue = 3,
-  QueueManager = 4,
-  Song = 5
+  Extractor = 0,
+  ExtractorManager = 1,
+  Queue = 2,
+  QueueManager = 3,
+  Song = 4
 }
