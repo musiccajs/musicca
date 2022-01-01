@@ -1,7 +1,7 @@
 {
   "name": "musicca",
   "version": "0.0.1",
-  "description": "A music streaming library for Node.js",
+  "description": "A modular, extensible and flexible music stream manager",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
