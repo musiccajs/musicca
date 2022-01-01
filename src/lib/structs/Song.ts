@@ -48,9 +48,11 @@ export default class Song extends BasePlugin {
     });
   }
 
-  public static resolve(client: Client, resolvable: SongResolvable): Awaitable<Nullable<Song | Song[]>> {
+  public static resolve(client: Client, resolvable?: SongResolvable): Awaitable<Nullable<Song | Song[]>> {
     if (resolvable instanceof Song) return resolvable;
     if (resolvable instanceof Queue) return resolvable.get(0);
     if (typeof resolvable === 'string') return client.extractors.extract(resolvable);
+
+    return null;
   }
 }

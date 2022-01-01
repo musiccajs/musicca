@@ -1,4 +1,3 @@
-import { TransformOptions } from 'stream';
 import { Constructor, Nullable, PluginType } from '@/constants';
 import Client from '../../Client';
 import { BasePlugin, MusiccaError, Queue, Song } from '..';
@@ -13,8 +12,6 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
   public readonly client: Client;
 
   public readonly list: Map<string, T>;
-
-  public readonly queueDefaultOptions?: TransformOptions;
 
   private readonly struct: Constructor<T>;
 
@@ -54,8 +51,8 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
    *
    * @returns {T}
    */
-  public create(options?: TransformOptions, id?: string): T {
-    const instance = new this.Struct(this, options ?? this.queueDefaultOptions, id);
+  public create(id?: string): T {
+    const instance = new this.Struct(this, id);
     this.list.set(instance.id, instance);
 
     return instance;

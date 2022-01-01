@@ -10,7 +10,8 @@
     "lint:fix": "eslint --fix .",
     "lint:report": "eslint --output-file eslint_report.json --format json .",
     "prepare": "npx husky install && node .husky/link.js",
-    "build": "tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./dist"
+    "build": "tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./dist",
+    "build:check": "tsc -p ./tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",

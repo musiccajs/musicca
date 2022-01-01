@@ -31,7 +31,7 @@ export function getDefault<T>(input: Nullable<T>, def: T): T {
  * Generate a random ID
  * @returns {string}
  */
-export function generateID() {
+export function generateID(): string {
   return Math.random().toString(36).slice(2, 10);
 }
 
@@ -44,4 +44,16 @@ export function generateID() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isNullOrUndefined(input: any): boolean {
   return input === undefined || input === null;
+}
+
+/**
+ * Clamp value to min and max values
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ *
+ * @returns {number}
+ */
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }
