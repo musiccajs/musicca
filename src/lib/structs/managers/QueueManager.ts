@@ -1,5 +1,5 @@
 import { TransformOptions } from 'stream';
-import { Constructor, PluginType } from '@/typings';
+import { Constructor, PluginType } from '@/constants';
 import Client from '../../Client';
 import { BasePlugin, Queue, Song } from '..';
 
