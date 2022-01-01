@@ -1,5 +1,5 @@
 import { PassThrough, TransformOptions, Readable } from 'stream';
-import { Awaitable, PluginType } from '@/typings';
+import { Awaitable, PluginType } from '@/constants';
 import { BasePlugin, Song } from '.';
 
 /**

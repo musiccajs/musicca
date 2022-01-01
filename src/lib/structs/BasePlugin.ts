@@ -1,4 +1,4 @@
-import { PluginType } from '@/typings';
+import { PluginType } from '@/constants';
 import { generateID } from '@/utils';
 
 /**

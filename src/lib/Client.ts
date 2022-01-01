@@ -1,4 +1,4 @@
-import { Constructor, PluginLike, PluginType } from '@/typings';
+import { Constructor, PluginLike, PluginType } from '@/constants';
 import { getDefault } from '@/utils';
 import { QueueManager, Extractor, ExtractorManager, Queue } from './structs';
 

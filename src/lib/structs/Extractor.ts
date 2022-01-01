@@ -2,7 +2,7 @@
 
 import { Readable } from 'stream';
 import { BasePlugin, Song } from '.';
-import { Awaitable, PluginType } from '@/typings';
+import { Awaitable, PluginType } from '@/constants';
 import { getDefault } from '@/utils';
 
 export interface ExtractorOptions {
@@ -14,22 +14,26 @@ export interface ExtractorOptions {
  * Extractor plugin
  * @abstract
  */
-export default abstract class Extractor extends BasePlugin {
+export default abstract class Extractor<T extends ExtractorOptions = ExtractorOptions> extends BasePlugin {
+  public readonly priority: number = 0;
+
   public name: string;
 
-  public options: ExtractorOptions;
+  public options: Omit<T, 'priority'>;
 
   /**
    * @param {string} name Extractor name
    * @param {ExtractorOptions} [options] Extractor options
    */
-  constructor(name: string, options?: ExtractorOptions, id?: string) {
+  constructor(name: string, options?: T, id?: string) {
     super(PluginType.Extractor, id);
 
     this.name = name;
-    this.options = getDefault<ExtractorOptions>(options, {
-      priority: 0
-    });
+
+    const { priority, ...opts } = getDefault<T>(options, {} as T);
+
+    this.options = opts;
+    this.priority = priority ?? 0;
   }
 
   /**
@@ -57,5 +61,3 @@ export default abstract class Extractor extends BasePlugin {
    */
   abstract fetch(url: string): Awaitable<Readable>;
 }
-
-export type ExtractorResolvable = Extractor | string;
