@@ -7,7 +7,7 @@ export type ExtractorResolvable = Extractor | string;
 /**
  * Extractor manager
  */
-export default class ExtractorManager extends BasePlugin {
+export class ExtractorManager extends BasePlugin {
   public readonly client: Client;
 
   public readonly extractors: Map<string, Extractor>;
@@ -59,7 +59,9 @@ export default class ExtractorManager extends BasePlugin {
   /**
    * Add an extractor to the manager
    * @param {Extractor} extractor The extractor
+   *
    * @returns {Extractor}
+   * @throws {MusiccaError}
    */
   public add<T extends Extractor = Extractor>(extractor: T) {
     if (this.extractors.has(extractor.id)) throw new MusiccaError('DUPLICATE_EXTRACTOR', extractor);

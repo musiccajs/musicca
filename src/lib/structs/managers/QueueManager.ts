@@ -4,11 +4,12 @@ import Client from '../../Client';
 import { BasePlugin, MusiccaError, Queue, Song } from '..';
 
 export type QueueResolvable<T extends Queue = Queue> = T | string;
+export type SongResolvable = Nullable<Queue | Song | string>;
 
 /**
  * Queue manager
  */
-export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
+export class QueueManager<T extends Queue = Queue> extends BasePlugin {
   public readonly client: Client;
 
   public readonly queues: Map<string, T>;
@@ -55,7 +56,7 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @returns {T}
    */
   public async create(options?: TransformOptions, songs?: Song | Song[], id?: string) {
-    const instance = new this.Struct(options ?? this.queueDefaultOptions, id);
+    const instance = new this.Struct(this, options ?? this.queueDefaultOptions, id);
     await instance.add(songs ?? []);
 
     return instance;
@@ -64,7 +65,9 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
   /**
    * Add an queue to the manager
    * @param {T} queue The queue
+   *
    * @returns {T}
+   * @throws {MusiccaError}
    */
   public add(queue: T) {
     if (this.queues.has(queue.id)) throw new MusiccaError('DUPLICATE_QUEUE', queue);
