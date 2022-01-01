@@ -1,34 +1,39 @@
 import { Readable } from 'stream';
-import { Extractor } from '.';
+import { PluginType } from '@/constants';
+import { BasePlugin, Extractor } from '.';
 
 export interface SongData {
   title: string;
-  duration: number;
+  duration?: number;
   description?: string;
   thumbnail?: string;
   source?: string;
   quality?: string | number;
+  id?: string;
   [key: string]: unknown;
 }
 
 /**
  * Song constructor
  */
-export default class Song {
+export default class Song extends BasePlugin {
   public readonly extractor: Extractor;
 
   public readonly url: string;
 
-  public readonly data?: SongData;
+  public readonly data: Omit<SongData, 'id'>;
 
   /**
    * @param {string} url Song url
    * @param {SongData} data Song data
    */
-  constructor(extractor: Extractor, url: string, data?: SongData) {
+  constructor(extractor: Extractor, url: string, data: SongData) {
+    const { id, ...opts } = data ?? {};
+    super(PluginType.Song, id);
+
     this.extractor = extractor;
     this.url = url;
-    this.data = data;
+    this.data = opts as SongData;
   }
 
   public fetch(): Promise<Readable> {

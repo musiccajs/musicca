@@ -1,6 +1,6 @@
-import { PluginType } from '@/constants';
+import { Nullable, PluginType } from '@/constants';
 import Client from '../../Client';
-import { BasePlugin, Extractor } from '..';
+import { BasePlugin, Extractor, MusiccaError } from '..';
 
 export type ExtractorResolvable = Extractor | string;
 
@@ -16,7 +16,7 @@ export default class ExtractorManager extends BasePlugin {
    * @param {Client} client Musicca client
    * @param {Extractor[]} [extractors] Initial extractors
    */
-  constructor(client: Client, extractors?: Extractor[]) {
+  constructor(client: Client, extractors?: Nullable<Extractor[]>) {
     super(PluginType.ExtractorManager);
 
     this.client = client;
@@ -53,7 +53,9 @@ export default class ExtractorManager extends BasePlugin {
    * @param {Extractor} extractor The extractor
    * @returns {Extractor}
    */
-  public add(extractor: Extractor) {
+  public add<T extends Extractor = Extractor>(extractor: T) {
+    if (this.extractors.has(extractor.id)) throw new MusiccaError('DUPLICATE_EXTRACTOR', extractor);
+
     this.extractors.set(extractor.id, extractor);
     return extractor;
   }
@@ -64,7 +66,7 @@ export default class ExtractorManager extends BasePlugin {
    * @returns {Extractor=}
    */
   public remove(resolvable: ExtractorResolvable) {
-    const extractor = this.resolve(resolvable);
+    const extractor = this.get(resolvable);
 
     if (extractor) this.extractors.delete(extractor.id);
 
@@ -76,9 +78,9 @@ export default class ExtractorManager extends BasePlugin {
    * @param {ExtractorResolvable} resolvable Extractor to resolve
    * @returns {Extractor=}
    */
-  public resolve(resolvable: ExtractorResolvable) {
-    const id = this.resolveId(resolvable);
-    return this.extractors.get(id);
+  public get<T extends Extractor = Extractor>(resolvable: ExtractorResolvable): T | undefined {
+    const id = this.getId(resolvable);
+    return this.extractors.get(id) as T | undefined;
   }
 
   /**
@@ -86,7 +88,7 @@ export default class ExtractorManager extends BasePlugin {
    * @param {ExtractorResolvable} resolvable Extractor to resolve
    * @returns {string=}
    */
-  public resolveId(resolvable: ExtractorResolvable) {
+  public getId(resolvable: ExtractorResolvable) {
     if (typeof resolvable === 'string' && this.extractors.has(resolvable)) return resolvable;
     return (resolvable as Extractor).id;
   }

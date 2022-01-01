@@ -1,7 +1,7 @@
 import { TransformOptions } from 'stream';
-import { Constructor, PluginType } from '@/constants';
+import { Constructor, Nullable, PluginType } from '@/constants';
 import Client from '../../Client';
-import { BasePlugin, Queue, Song } from '..';
+import { BasePlugin, MusiccaError, Queue, Song } from '..';
 
 export type QueueResolvable<T extends Queue = Queue> = T | string;
 
@@ -15,19 +15,27 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
 
   public readonly queueDefaultOptions?: TransformOptions;
 
-  public readonly QueueStruct: Constructor<T>;
+  private readonly struct: Constructor<T>;
 
   /**
    * @param {Client} client Musicca client
    * @param {Queue[]=} [queues] Initial queues
    */
-  constructor(struct: Constructor<T>, client: Client, queues?: T[]) {
+  constructor(struct: Constructor<T>, client: Client, queues?: Nullable<T[]>) {
     super(PluginType.QueueManager);
 
     this.client = client;
     this.queues = new Map(queues?.map((queue) => [queue.id, queue]));
 
-    this.QueueStruct = struct;
+    this.struct = struct;
+  }
+
+  /**
+   * Get default queue constructor set on initiating
+   * @returns {Constructor<T>}
+   */
+  public get Struct() {
+    return this.struct;
   }
 
   /**
@@ -47,7 +55,7 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @returns {T}
    */
   public async create(options?: TransformOptions, songs?: Song | Song[], id?: string) {
-    const instance = new this.QueueStruct(options ?? this.queueDefaultOptions, id);
+    const instance = new this.Struct(options ?? this.queueDefaultOptions, id);
     await instance.add(songs ?? []);
 
     return instance;
@@ -59,6 +67,8 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @returns {T}
    */
   public add(queue: T) {
+    if (this.queues.has(queue.id)) throw new MusiccaError('DUPLICATE_QUEUE', queue);
+
     this.queues.set(queue.id, queue);
     return queue;
   }
@@ -69,11 +79,11 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @returns {Queue=}
    */
   public remove(resolvable: QueueResolvable<T>) {
-    const extractor = this.resolve(resolvable);
+    const queue = this.get(resolvable);
 
-    if (extractor) this.queues.delete(extractor.id);
+    if (queue) this.queues.delete(queue.id);
 
-    return extractor;
+    return queue;
   }
 
   /**
@@ -81,8 +91,8 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @param {QueueResolvable<T>} resolvable Queue to resolve
    * @returns {Queue=}
    */
-  public resolve(resolvable: QueueResolvable<T>) {
-    const id = this.resolveId(resolvable);
+  public get(resolvable: QueueResolvable<T>) {
+    const id = this.getId(resolvable);
     return this.queues.get(id);
   }
 
@@ -91,8 +101,8 @@ export default class QueueManager<T extends Queue = Queue> extends BasePlugin {
    * @param {QueueResolvable<T>} resolvable Queue to resolve
    * @returns {string=}
    */
-  resolveId(resolvable: QueueResolvable<T>) {
+  public getId(resolvable: QueueResolvable<T>) {
     if (typeof resolvable === 'string' && this.queues.has(resolvable)) return resolvable;
-    return (resolvable as Queue).id;
+    return (resolvable as T).id;
   }
 }

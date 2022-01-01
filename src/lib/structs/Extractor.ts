@@ -2,7 +2,7 @@
 
 import { Readable } from 'stream';
 import { BasePlugin, Song } from '.';
-import { Awaitable, PluginType } from '@/constants';
+import { Awaitable, Nullable, PluginType } from '@/constants';
 import { getDefault } from '@/utils';
 
 export interface ExtractorOptions {
@@ -25,7 +25,7 @@ export default abstract class Extractor<T extends ExtractorOptions = ExtractorOp
    * @param {string} name Extractor name
    * @param {ExtractorOptions} [options] Extractor options
    */
-  constructor(name: string, options?: T, id?: string) {
+  constructor(name: string, options?: Nullable<T>, id?: Nullable<string>) {
     super(PluginType.Extractor, id);
 
     this.name = name;
@@ -57,7 +57,7 @@ export default abstract class Extractor<T extends ExtractorOptions = ExtractorOp
    * Download data from url extracted from `extract` method to a `Readable` stream
    * @param {string} url Url to download the resource
    *
-   * @returns {Awaitable<ReadableStream>}
+   * @returns {Awaitable<Readable>}
    */
   abstract fetch(url: string): Awaitable<Readable>;
 }
