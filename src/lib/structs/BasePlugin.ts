@@ -1,4 +1,4 @@
-import { PluginType } from '@/constants';
+import { Nullable, PluginType } from '@/constants';
 import { generateID } from '@/utils';
 
 /**
@@ -13,7 +13,7 @@ export default abstract class BasePlugin {
    * @param {PluginType} type Plugin type
    * @param {string} [id] Plugin id (will generate a random unique id if not provided)
    */
-  constructor(type: PluginType, id?: string) {
+  constructor(type: PluginType, id?: Nullable<string>) {
     this.type = type;
     this.id = id ?? generateID();
   }

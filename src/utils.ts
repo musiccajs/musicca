@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
+import { Nullable } from './constants';
+
 /**
  * Get a default value if input is undefined
  * @param {any} input Input value
@@ -7,7 +9,7 @@
  * @returns {any}
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getDefault<T>(input: T | undefined, def: T): T {
+export function getDefault<T>(input: Nullable<T>, def: T): T {
   if (typeof input === 'object' && !Array.isArray(input) && typeof def === 'object' && !Array.isArray(def)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newObj = { ...input } as T | any;
