@@ -19,7 +19,7 @@ export interface MediaData {
 /**
  * Media constructor
  */
-export default class Media<T extends Extractor = Extractor> extends BasePlugin {
+export class Media<T extends Extractor = Extractor> extends BasePlugin {
   public readonly extractor: T;
 
   public readonly url: string;

@@ -14,7 +14,7 @@ export interface ExtractorOptions {
  * Extractor plugin
  * @abstract
  */
-export default abstract class Extractor<T extends ExtractorOptions = ExtractorOptions> extends BasePlugin {
+export abstract class Extractor<T extends ExtractorOptions = ExtractorOptions> extends BasePlugin {
   public readonly priority: number = 0;
 
   public name: string;

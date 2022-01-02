@@ -14,7 +14,7 @@ export interface ClientOptions<T extends Queue = Queue> {
 /**
  * Musicca client class
  */
-export default class Client<T extends Queue = Queue> {
+export class Client<T extends Queue = Queue> {
   public readonly options: ClientOptions<T>;
 
   public extractors: ExtractorManager;

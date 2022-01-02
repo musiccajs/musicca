@@ -6,7 +6,7 @@ export const ErrorType = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default class MusiccaError<T = any> extends Error {
+export class MusiccaError<T = any> extends Error {
   public readonly instance: T;
 
   constructor(name: keyof typeof ErrorType, instance: T) {
