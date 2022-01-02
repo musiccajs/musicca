@@ -15,10 +15,14 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install --frozen-lockfile
 
       - name: Run ESLint
-        run: npm run lint
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: lint
 
   typescript:
     name: TypeScript
@@ -34,13 +38,17 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install --frozen-lockfile
 
       - name: Register Problem Matcher
         run: echo "##[add-matcher].github/tsc.json"
 
       - name: Run Type Tests
-        run: npm run build:test
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: build:test
 
   docs:
     name: Documentation
@@ -56,7 +64,11 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install --frozen-lockfile
 
       - name: Test documentation
-        run: npm run docs:test
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: docs:test
