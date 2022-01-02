@@ -26,6 +26,14 @@
     "url": "https://github.com/musiccajs/musicca/issues"
   },
   "homepage": "https://github.com/musiccajs/musicca#readme",
+  "keywords": [
+    "media",
+    "manager",
+    "stream",
+    "playlist",
+    "music",
+    "song"
+  ],
   "files": [
     "dist",
     "LICENSE",
