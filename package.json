@@ -13,7 +13,8 @@
     "build": "npx rimraf dist && tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./dist",
     "build:test": "tsc -p ./tsconfig.json --noEmit",
     "docs": "typedoc && node generateDocs.js",
-    "docs:test": "typedoc && node generateDocs.js --dry-run"
+    "docs:test": "typedoc && node generateDocs.js --dry-run",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
