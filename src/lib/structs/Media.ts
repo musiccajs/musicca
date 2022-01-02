@@ -35,6 +35,11 @@ export default class Media extends BasePlugin {
     this.data = data;
   }
 
+  /**
+   * Fetch media stream
+   *
+   * @returns {Promise<Readable>}
+   */
   public fetch(): Promise<Readable> {
     return new Promise((resolve, reject) => {
       Promise.resolve().then(async () => {
@@ -48,6 +53,13 @@ export default class Media extends BasePlugin {
     });
   }
 
+  /**
+   * Resolve media resolvable to its media object
+   * @param {Client} client
+   * @param {MediaResolvable} resolvable
+   *
+   * @returns {Awaitable<Nullable<Media | Media[]>>}
+   */
   public static resolve(client: Client, resolvable: MediaResolvable): Awaitable<Nullable<Media | Media[]>> {
     if (resolvable instanceof Media) return resolvable;
     if (resolvable instanceof Queue) return resolvable.get(0);

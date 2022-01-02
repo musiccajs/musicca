@@ -7,6 +7,8 @@ export type MediaResolvable = Queue | Media | string;
 
 /**
  * Queue manager
+ *
+ * @template T
  */
 export class QueueManager<T extends Queue = Queue> extends BasePlugin {
   public readonly client: Client;
@@ -17,7 +19,7 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
 
   /**
    * @param {Client} client Musicca client
-   * @param {Queue[]=} [queues] Initial queues
+   * @param {Nullable<T[]>} [queues] Initial queues
    */
   constructor(struct: Constructor<T>, client: Client, queues?: Nullable<T[]>) {
     super(PluginType.QueueManager);
@@ -30,6 +32,7 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
 
   /**
    * Get default queue constructor set on initiating
+   *
    * @returns {Constructor<T>}
    */
   public get Struct() {

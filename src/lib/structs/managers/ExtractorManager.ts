@@ -45,7 +45,7 @@ export class ExtractorManager extends BasePlugin {
    *
    * @returns {Map<string, Extractor>}
    */
-  public all() {
+  public all(): Map<string, Extractor> {
     return this.list;
   }
 
@@ -53,7 +53,7 @@ export class ExtractorManager extends BasePlugin {
    * Get all extractor as an array, sorted by its priority
    * @returns {Extractor[]}
    */
-  public values() {
+  public values(): Extractor[] {
     return [...this.list.values()].sort((a, b) => b.priority - a.priority);
   }
 
@@ -64,7 +64,7 @@ export class ExtractorManager extends BasePlugin {
    * @returns {Extractor}
    * @throws {MusiccaError}
    */
-  public add<T extends Extractor = Extractor>(extractor: T) {
+  public add<T extends Extractor = Extractor>(extractor: T): T {
     if (this.list.has(extractor.id)) throw new MusiccaError('DUPLICATE_EXTRACTOR', extractor);
 
     this.list.set(extractor.id, extractor);
@@ -75,10 +75,10 @@ export class ExtractorManager extends BasePlugin {
    * Remove extractor from the manager
    * @param {ExtractorResolvable} resolvable Extractor to remove
    *
-   * @returns {Nullable<Extractor>}
+   * @returns {Nullable<T>}
    */
-  public remove(resolvable: ExtractorResolvable) {
-    const extractor = this.get(resolvable);
+  public remove<T extends Extractor = Extractor>(resolvable: ExtractorResolvable): Nullable<T> {
+    const extractor = this.get<T>(resolvable);
 
     if (extractor) this.list.delete(extractor.id);
 
