@@ -16,8 +16,8 @@ export interface MediaData {
 /**
  * Media constructor
  */
-export default class Media extends BasePlugin {
-  public readonly extractor: Extractor;
+export default class Media<T extends Extractor = Extractor> extends BasePlugin {
+  public readonly extractor: T;
 
   public readonly url: string;
 
@@ -27,7 +27,7 @@ export default class Media extends BasePlugin {
    * @param {string} url Media url
    * @param {MediaData} data Media data
    */
-  constructor(extractor: Extractor, url: string, data: MediaData, id?: Nullable<string>) {
+  constructor(extractor: T, url: string, data: MediaData, id?: Nullable<string>) {
     super(PluginType.Media, id);
 
     this.extractor = extractor;
