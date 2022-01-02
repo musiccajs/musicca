@@ -26,7 +26,7 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true
   },
