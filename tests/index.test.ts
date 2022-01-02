@@ -1,4 +1,4 @@
-import Musicca, { MusiccaError, Song } from '../src';
+import Musicca, { MusiccaError, Media } from '../src';
 import { MemoryQueue, FooExtractor, BarExtractor, RandomReadable } from './classes';
 
 const client = new Musicca<MemoryQueue>({
@@ -33,13 +33,13 @@ describe('extracting', () => {
   test('should get correct output (foo)', () => client.extractors.extract(fooTitle)
     .then((res) => {
       expect(res).not.toBeNull();
-      expect(res).toBeInstanceOf(Song);
+      expect(res).toBeInstanceOf(Media);
 
-      const song = res as Song;
-      expect(song.data.title).toBe(fooTitle);
-      expect(song.id).toBe('foo');
+      const media = res as Media;
+      expect(media.data.title).toBe(fooTitle);
+      expect(media.id).toBe('foo');
 
-      return song.fetch();
+      return media.fetch();
     })
     .then((res) => {
       const stream = res as RandomReadable;
@@ -51,13 +51,13 @@ describe('extracting', () => {
   test('should get correct output (bar)', () => client.extractors.extract(barTitle)
     .then((res) => {
       expect(res).not.toBeNull();
-      expect(res).toBeInstanceOf(Song);
+      expect(res).toBeInstanceOf(Media);
 
-      const song = res as Song;
-      expect(song.data.title).toBe(barTitle);
-      expect(song.id).toBe('bar');
+      const media = res as Media;
+      expect(media.data.title).toBe(barTitle);
+      expect(media.id).toBe('bar');
 
-      return song.fetch();
+      return media.fetch();
     })
     .then((res) => {
       const stream = res as RandomReadable;

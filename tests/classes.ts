@@ -1,23 +1,23 @@
 /* eslint-disable max-classes-per-file */
 import { Readable } from 'stream';
 import { randomBytes } from 'crypto';
-import { Extractor, Queue, Song, Utils } from '../src';
+import { Extractor, Queue, Media, Utils } from '../src';
 
 // TEMP
 export class MemoryQueue extends Queue {
-  public list: Song[] = [];
+  public list: Media[] = [];
 
   public all() {
     return this.list;
   }
 
-  public add<T extends Song | Song[] = Song>(song: T, position?: number) {
-    const wrap = Array.isArray(song) ? song : [song];
+  public add<T extends Media | Media[] = Media>(media: T, position?: number) {
+    const wrap = Array.isArray(media) ? media : [media];
 
     if (Utils.isNullOrUndefined(position)) this.list.splice(position as number, 0, ...wrap);
     else this.list.push(...wrap);
 
-    return song;
+    return media;
   }
 
   public get(position: number) {
@@ -32,8 +32,8 @@ export class MemoryQueue extends Queue {
     this.list = [];
   }
 
-  public indexOf(song: Song) {
-    return this.list.indexOf(song);
+  public indexOf(media: Media) {
+    return this.list.indexOf(media);
   }
 }
 
@@ -61,8 +61,8 @@ export class FooExtractor extends Extractor {
     return /foo$/.test(input);
   }
 
-  extract(input: string): Song {
-    return new Song(this, `https://foo.example.com/${input}`, {
+  extract(input: string): Media {
+    return new Media(this, `https://foo.example.com/${input}`, {
       title: input
     }, 'foo');
   }
@@ -81,8 +81,8 @@ export class BarExtractor extends Extractor {
     return /bar$/.test(input);
   }
 
-  extract(input: string): Song {
-    return new Song(this, `https://bar.example.com/${input}`, {
+  extract(input: string): Media {
+    return new Media(this, `https://bar.example.com/${input}`, {
       title: input
     }, 'bar');
   }

@@ -1,7 +1,7 @@
 
 
 import { Readable } from 'stream';
-import { BasePlugin, Song } from '.';
+import { BasePlugin, Media } from '.';
 import { Awaitable, Nullable, PluginType } from '@/constants';
 import { getDefault } from '@/utils';
 
@@ -49,9 +49,9 @@ export default abstract class Extractor<T extends ExtractorOptions = ExtractorOp
    * Extract input to normalized object
    * @param {string} input Input to extract from
    *
-   * @returns {Awaitable<Song | Song[]>}
+   * @returns {Awaitable<Media | Media[]>}
    */
-  abstract extract(input: string): Awaitable<Song | Song[]>;
+  abstract extract(input: string): Awaitable<Media | Media[]>;
 
   /**
    * Download data from url extracted from `extract` method to a `Readable` stream

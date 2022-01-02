@@ -16,5 +16,5 @@ export enum PluginType {
   ExtractorManager = 1,
   Queue = 2,
   QueueManager = 3,
-  Song = 4
+  Media = 4
 }

@@ -1,6 +1,6 @@
 import { Nullable, PluginType } from '@/constants';
 import Client from '../../Client';
-import { BasePlugin, Extractor, MusiccaError, Song } from '..';
+import { BasePlugin, Extractor, MusiccaError, Media } from '..';
 
 export type ExtractorResolvable = Extractor | string;
 
@@ -27,9 +27,9 @@ export class ExtractorManager extends BasePlugin {
    * Try to loop through all exteractor and call {@link Extractor.extract} if match
    * @param {string} input Input to pass to extractor
    *
-   * @returns {Promise<Nullable<Song | Song[]>>}
+   * @returns {Promise<Nullable<Media | Media[]>>}
    */
-  public async extract(input: string): Promise<Song | Song[] | null> {
+  public async extract(input: string): Promise<Media | Media[] | null> {
     if (!input) return null;
 
     const extractor = this.values().find((ext) => ext.validate(input));

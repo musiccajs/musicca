@@ -1,9 +1,9 @@
 import { Readable } from 'stream';
 import { Awaitable, Nullable, PluginType } from '@/constants';
-import { BasePlugin, Extractor, Queue, SongResolvable } from '.';
+import { BasePlugin, Extractor, Queue, MediaResolvable } from '.';
 import { Client } from '..';
 
-export interface SongData {
+export interface MediaData {
   title: string;
   duration?: number;
   description?: string;
@@ -14,21 +14,21 @@ export interface SongData {
 }
 
 /**
- * Song constructor
+ * Media constructor
  */
-export default class Song extends BasePlugin {
+export default class Media extends BasePlugin {
   public readonly extractor: Extractor;
 
   public readonly url: string;
 
-  public readonly data: SongData;
+  public readonly data: MediaData;
 
   /**
-   * @param {string} url Song url
-   * @param {SongData} data Song data
+   * @param {string} url Media url
+   * @param {MediaData} data Media data
    */
-  constructor(extractor: Extractor, url: string, data: SongData, id?: Nullable<string>) {
-    super(PluginType.Song, id);
+  constructor(extractor: Extractor, url: string, data: MediaData, id?: Nullable<string>) {
+    super(PluginType.Media, id);
 
     this.extractor = extractor;
     this.url = url;
@@ -48,8 +48,8 @@ export default class Song extends BasePlugin {
     });
   }
 
-  public static resolve(client: Client, resolvable: SongResolvable): Awaitable<Nullable<Song | Song[]>> {
-    if (resolvable instanceof Song) return resolvable;
+  public static resolve(client: Client, resolvable: MediaResolvable): Awaitable<Nullable<Media | Media[]>> {
+    if (resolvable instanceof Media) return resolvable;
     if (resolvable instanceof Queue) return resolvable.get(0);
     if (typeof resolvable === 'string') return client.extractors.extract(resolvable);
 

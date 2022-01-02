@@ -1,9 +1,9 @@
 import { Constructor, Nullable, PluginType } from '@/constants';
 import Client from '../../Client';
-import { BasePlugin, MusiccaError, Queue, Song } from '..';
+import { BasePlugin, MusiccaError, Queue, Media } from '..';
 
 export type QueueResolvable<T extends Queue = Queue> = T | string;
-export type SongResolvable = Queue | Song | string;
+export type MediaResolvable = Queue | Media | string;
 
 /**
  * Queue manager
