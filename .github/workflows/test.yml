@@ -20,6 +20,25 @@ jobs:
       - name: Run ESLint
         run: yarn lint
 
+  cases:
+    name: Use cases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run ESLint
+        run: yarn test
+
   typescript:
     name: TypeScript
     runs-on: ubuntu-latest
