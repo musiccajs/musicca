@@ -5,6 +5,9 @@ import { Client } from '..';
 
 export interface MediaData {
   title: string;
+  /**
+   * In seconds
+   */
   duration?: number;
   description?: string;
   thumbnail?: string;
