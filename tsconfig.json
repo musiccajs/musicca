@@ -19,7 +19,7 @@
       "@/*": ["./*"]
     },
     "declaration": true,
-    "removeComments": false,
+    "removeComments": true,
     "pretty": true,
     "strict": true,
     "alwaysStrict": true,
