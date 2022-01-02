@@ -19,7 +19,7 @@
       "@/*": ["./*"]
     },
     "declaration": true,
-    "removeComments": true,
+    "removeComments": false,
     "pretty": true,
     "strict": true,
     "alwaysStrict": true,
@@ -28,7 +28,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "skipDefaultLibCheck": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "tests",

@@ -77,3 +77,6 @@ typings/
 
 # Distribution directory
 dist/
+
+# Docs
+docs/*.json
