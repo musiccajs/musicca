@@ -1,4 +1,5 @@
 export const ErrorType = {
+  INVALID_ARGUMENT: 'Invalid argument provided',
   MISSING_ARGUMENT: 'Missing a required argument',
   INVALID_QUEUE_STRUCT: 'Invalid queue structure',
   DUPLICATE_EXTRACTOR: 'Extractor with the same ID already exist',

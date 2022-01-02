@@ -125,7 +125,7 @@ export default abstract class Queue extends BasePlugin {
    */
   public async play(resolvable: MediaResolvable | number): Promise<Readable> {
     const resolved = await this.resolveMedia(resolvable);
-    if (!resolved) throw new MusiccaError('MISSING_ARGUMENT', 'resolvable');
+    if (!resolved) throw new MusiccaError('INVALID_ARGUMENT', 'resolvable');
 
     const stream = await resolved.fetch();
     const position = await this.indexOf(resolved);
