@@ -1,7 +1,10 @@
 import Musicca, { MusiccaError, Media } from '../src';
-import { MemoryQueue, FooExtractor, BarExtractor, RandomReadable } from './classes';
+import { MemoryQueue, FooExtractor, BarExtractor, RandomReadable, TacExtractor } from './classes';
 
 const client = new Musicca<MemoryQueue>({
+  plugins: [
+    new TacExtractor()
+  ],
   structs: {
     queue: MemoryQueue
   }
@@ -10,6 +13,12 @@ const client = new Musicca<MemoryQueue>({
 describe('initiating client', () => {
   test('should set queue struct to be MemoryQueue', () => {
     expect(client.queues.Struct).toBe(MemoryQueue);
+  });
+
+  test('should have plugged in extractor', () => {
+    expect(client.extractors.get('tac')).toBeInstanceOf(TacExtractor);
+    expect(client.extractors.add.bind(client.extractors, new TacExtractor()))
+      .toThrowError(MusiccaError.types.DUPLICATE_EXTRACTOR);
   });
 
   test('should add new extractor', () => {
@@ -22,7 +31,8 @@ describe('initiating client', () => {
     expect(client.extractors.get('foo')).toBeInstanceOf(FooExtractor);
     expect(client.extractors.get('bar')).toBeInstanceOf(BarExtractor);
 
-    expect(client.extractors.add.bind(client.extractors, fooExtractor)).toThrowError(MusiccaError.types.DUPLICATE_EXTRACTOR);
+    expect(client.extractors.add.bind(client.extractors, new FooExtractor()))
+      .toThrowError(MusiccaError.types.DUPLICATE_EXTRACTOR);
   });
 });
 

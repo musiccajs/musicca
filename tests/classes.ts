@@ -3,7 +3,6 @@ import { Readable } from 'stream';
 import { randomBytes } from 'crypto';
 import { Extractor, Queue, Media, Utils } from '../src';
 
-// TEMP
 export class MemoryQueue extends Queue {
   public list: Media[] = [];
 
@@ -89,5 +88,25 @@ export class BarExtractor extends Extractor {
 
   fetch() {
     return new RandomReadable('bar');
+  }
+}
+
+export class TacExtractor extends Extractor {
+  constructor() {
+    super('tac-extractor', undefined, 'tac');
+  }
+
+  validate(input: string) {
+    return /tac$/.test(input);
+  }
+
+  extract(input: string): Media {
+    return new Media(this, `https://tac.example.com/${input}`, {
+      title: input
+    }, 'tac');
+  }
+
+  fetch() {
+    return new RandomReadable('tac');
   }
 }
