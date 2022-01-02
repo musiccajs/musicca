@@ -12,17 +12,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          cache: npm
+          cache: yarn
 
       - name: Install dependencies
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Run ESLint
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: lint
+        run: yarn lint
 
   typescript:
     name: TypeScript
@@ -35,20 +31,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          cache: npm
+          cache: yarn
 
       - name: Install dependencies
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Register Problem Matcher
         run: echo "##[add-matcher].github/tsc.json"
 
       - name: Run Type Tests
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: build:test
+        run: yarn build:test
 
   docs:
     name: Documentation
@@ -61,14 +53,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          cache: npm
+          cache: yarn
 
       - name: Install dependencies
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Test documentation
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: docs:test
+        run: yarn docs:test
