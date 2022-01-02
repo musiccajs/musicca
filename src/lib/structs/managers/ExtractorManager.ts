@@ -1,5 +1,5 @@
 import { Nullable, PluginType } from '@/constants';
-import Client from '../../Client';
+import { Client } from '../../Client';
 import { BasePlugin, Extractor, MusiccaError, Media } from '..';
 
 export type ExtractorResolvable = Extractor | string;
