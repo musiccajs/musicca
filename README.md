@@ -42,6 +42,9 @@ import { MemoryQueue } from '@musicca/structs';
 import { YoutubeExtractor } from '@musicca/extractors';
 
 const client = new Musicca<MemoryQueue>({
+  plugins: {
+    new YoutubeExtractor(/* options */)
+  },
   structs: {
     queue: MemoryQueue
   }
