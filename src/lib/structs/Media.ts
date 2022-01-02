@@ -8,11 +8,11 @@ export interface MediaData {
   /**
    * In seconds
    */
-  duration?: number;
-  description?: string;
-  thumbnail?: string;
-  source?: string;
-  quality?: string | number;
+  duration?: Nullable<number>;
+  description?: Nullable<string>;
+  thumbnail?: Nullable<string>;
+  source?: Nullable<string>;
+  quality?: Nullable<string | number>;
   [key: string]: unknown;
 }
 
