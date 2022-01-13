@@ -134,7 +134,7 @@ export default abstract class Queue extends BasePlugin {
     return stream;
   }
 
-  private async resolveMedia(resolvable: MediaResolvable | number): Promise<Nullable<Media>> {
+  async resolveMedia(resolvable: MediaResolvable | number): Promise<Nullable<Media>> {
     if (typeof resolvable === 'number') {
       const res = await this.get(resolvable);
       return res;

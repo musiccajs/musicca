@@ -49,13 +49,16 @@ export class QueueManager<T extends Queue = Queue> extends BasePlugin {
 
   /**
    * Create a new queue
-   * @param {TransformOptions} [options] New queue options
+   * @template K Options type
+   *
+   * @param {K} [options] New queue options
    * @param {string} [id] New queue ID
    *
    * @returns {T}
    */
-  public create(id?: string): T {
-    const instance = new this.Struct(this, id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public create<K>(options?: K, id?: string): T {
+    const instance = new this.Struct(this, id, options);
     this.list.set(instance.id, instance);
 
     return instance;
