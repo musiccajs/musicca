@@ -1,5 +1,5 @@
-import Musicca, { MusiccaError, Media } from '../src';
-import { MemoryQueue, FooExtractor, BarExtractor, RandomReadable, TacExtractor } from './classes';
+import Musicca, { MusiccaError, Media, MemoryQueue } from '../src';
+import { FooExtractor, BarExtractor, RandomReadable, TacExtractor } from './classes';
 
 const client = new Musicca<MemoryQueue>({
   plugins: [

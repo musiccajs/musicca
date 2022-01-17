@@ -22,7 +22,7 @@ export default abstract class Queue extends BasePlugin {
 
   /**
    * Get all queue list in array
-   *
+   * @abstract
    * @returns {Awaitable<Media[]>}
    */
   public abstract all(): Awaitable<Media[]>;
@@ -31,7 +31,7 @@ export default abstract class Queue extends BasePlugin {
    * Add a media or an array of medias to the queue
    * @param {Media | Media[]} media Media(s) to add
    * @param {number} [position] Exact position to insert the media(s). (Default is the last position)
-   *
+   * @abstract
    * @returns {Awaitable<T>}
    */
   public abstract add<T extends Media | Media[] = Media>(media: T, position?: number): Awaitable<T>;
@@ -39,7 +39,7 @@ export default abstract class Queue extends BasePlugin {
   /**
    * Get a media based on the position
    * @param {number} position
-   *
+   * @abstract
    * @returns {Awaitable<Nullable<Media>>}
    */
   public abstract get(position: number): Awaitable<Nullable<Media>>;
@@ -47,18 +47,20 @@ export default abstract class Queue extends BasePlugin {
   /**
    * Remove a media based on the position
    * @param {number} position
-   *
+   * @abstract
    * @returns {Awaitable<Nullable<Media>>}
    */
   public abstract remove(position: number): Awaitable<Nullable<Media>>;
 
   /**
    * Clear the queue
+   * @abstract
    */
   public abstract clear(): Awaitable<void>;
 
   /**
    * Get index of the media (Similar to {@link Array.indexOf})
+   * @abstract
    * @param {Media} media Media reference
    */
   public abstract indexOf(media: Media): Awaitable<number>;

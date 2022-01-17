@@ -37,8 +37,7 @@ pnpm add musicca @musicca/structs @musicca/extractors
 Create a new Musicca instance
 
 ```ts
-import Musicca from 'musicca';
-import { MemoryQueue } from '@musicca/structs';
+import Musicca, { MemoryQueue } from 'musicca';
 import { YoutubeExtractor } from '@musicca/extractors';
 
 const client = new Musicca<MemoryQueue>({

@@ -4,3 +4,4 @@ export * from './Media';
 export * from './Extractor';
 export * from './MusiccaError';
 export * from './managers';
+export * from './queues';

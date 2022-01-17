@@ -1,40 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { Readable } from 'stream';
 import { randomBytes } from 'crypto';
-import { Extractor, Queue, Media, Utils } from '../src';
-
-export class MemoryQueue extends Queue {
-  public list: Media[] = [];
-
-  public all() {
-    return this.list;
-  }
-
-  public add<T extends Media | Media[] = Media>(media: T, position?: number) {
-    const wrap = Array.isArray(media) ? media : [media];
-
-    if (Utils.isNullOrUndefined(position)) this.list.splice(position as number, 0, ...wrap);
-    else this.list.push(...wrap);
-
-    return media;
-  }
-
-  public get(position: number) {
-    return this.list[position];
-  }
-
-  public remove(position: number) {
-    return this.list.splice(position, 1)[0];
-  }
-
-  public clear() {
-    this.list = [];
-  }
-
-  public indexOf(media: Media) {
-    return this.list.indexOf(media);
-  }
-}
+import { Extractor, Media } from '../src';
 
 export class RandomReadable extends Readable {
   public readonly name: string;
