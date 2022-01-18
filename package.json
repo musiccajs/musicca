@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/musiccajs/musicca/issues"
   },
-  "homepage": "https://github.com/musiccajs/musicca#readme",
+  "homepage": "https://musicca.js.org",
   "keywords": [
     "media",
     "manager",
