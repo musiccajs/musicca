@@ -52,7 +52,7 @@ const client = new Musicca<MemoryQueue>({
 
 # Links 🔗
 
-- [Website](https://musicca.edqe.me) ([source](https://github.com/musiccajs/website))
-- [Documentation](https://musicca.edqe.me/docs)
+- [Website](https://musicca.js.org) ([source](https://github.com/musiccajs/website))
+- [Documentation](https://musicca.js.org/docs)
 - [Github](https://github.com/musiccajs/musicca)
 - [npm](https://www.npmjs.com/package/musicca)
