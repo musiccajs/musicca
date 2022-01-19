@@ -29,9 +29,9 @@ pnpm add musicca
 Install all required dependencies
 
 ```sh-session
-npm install musicca @musicca/structs @musicca/extractors
-yarn add musicca @musicca/structs @musicca/extractors
-pnpm add musicca @musicca/structs @musicca/extractors
+npm install --save musicca @musicca/extractors
+yarn add musicca @musicca/extractors
+pnpm add musicca @musicca/extractors
 ```
 
 Create a new Musicca instance
